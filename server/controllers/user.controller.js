@@ -1,6 +1,6 @@
+const jwt = require('jsonwebtoken')
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken')
 
 module.exports.register = async(request, response) => {
     User.create(request.body)
@@ -20,21 +20,21 @@ module.exports.login = (request, response) => {
                 bcrypt.compare(request.body.password, user.password)
                     .then((correctPassword)=>{
                         if(correctPassword){
-                            console.log('Password is valid')
+                            console.log('Password is valid');
                             response.cookie(
-                                    "usertoken",
-                                    jwt.sign(
-                                        {
-                                            id: user._id
-                                        },
-                                        process.env.JWT_SECRET
-                                    ),
-                                        {
-                                            httpOnly: true,
-                                            expires: new Date(Date.now() + 9000000)
-                                        }
-                                    )
-                                    .json({ msg: "success!" });
+                                "usertoken",
+                                jwt.sign(
+                                    {
+                                        id: user._id
+                                    },
+                                    process.env.JWT_SECRET
+                                ),
+                                    {
+                                        httpOnly: true,
+                                        expires: new Date(Date.now() + 9000000)
+                                    }
+                                )
+                                .json({ msg: "success!" });
                         }
                         else{
                             response.status(400).json({message: "Invalid Login2"});
@@ -56,4 +56,5 @@ module.exports.login = (request, response) => {
 module.exports.logout = (request, response) => {
     response.clearCookie('usertoken');
     response.json({message: "You have been logged out!"})
+    
 }

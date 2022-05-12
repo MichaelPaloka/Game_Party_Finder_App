@@ -25,7 +25,6 @@ const Homepage = (props) => {
         .catch((err) => console.log(err))
         navigate('/Gamepartyfinder')
     }
-    
 
     return (
         <div style={{backgroundColor: "#EAE7DC"}}>
