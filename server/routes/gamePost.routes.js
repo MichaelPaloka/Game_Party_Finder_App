@@ -1,5 +1,6 @@
 const GamePostController = require('../controllers/gamePost.controller');
 
+
 module.exports = (app) => {
     app.post('/api/gamepost', GamePostController.createGamePost);
     app.get('/api/gamepost', GamePostController.getAllGamePosts);

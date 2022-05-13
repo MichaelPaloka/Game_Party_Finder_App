@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {Navbar, Nav, Container, NavDropdown, CardGroup, Card} from 'react-bootstrap';
+import {Navbar, Nav, Container, NavDropdown} from 'react-bootstrap';
 
-const NewGamePostForm = (props) => {
+const NewGamePostForm = () => {
     const [gameTitle, setGameTitle] = useState("");
     const [genre, setGenre] = useState("");
     const [objective, setObjective] = useState("");
@@ -20,6 +20,9 @@ const NewGamePostForm = (props) => {
             objective,
             partySize,
             date,
+        },
+        {
+            withCredentials: true
         })
             .then((res) => {
                 console.log(res);
@@ -41,28 +44,29 @@ const NewGamePostForm = (props) => {
 
     return (
         <div>
+            <Navbar style={{backgroundColor: "#8E8D8A"}} expand="lg">
+                <Container>
+                    <Navbar.Brand href="#home">GamePartyFinder</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <div style={{display: "flex"}}>
+                                <Nav.Link href="/Gamepartyfinder/home">Home</Nav.Link>
+                                <Nav.Link href="#link">Link</Nav.Link>
+                            </div>
+                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item onClick={() => onLogoutHandler()}>Logout</NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+
             <form onSubmit={onSubmitHandler}>
-                <Navbar style={{backgroundColor: "#8E8D8A"}} expand="lg">
-                    <Container>
-                        <Navbar.Brand href="#home">GamePartyFinder</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="me-auto">
-                                <div style={{display: "flex"}}>
-                                    <Nav.Link href="#home">Home</Nav.Link>
-                                    <Nav.Link href="#link">Link</Nav.Link>
-                                </div>
-                                <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    <NavDropdown.Item onClick={() => onLogoutHandler()}>Logout</NavDropdown.Item>
-                                </NavDropdown>
-                            </Nav>
-                        </Navbar.Collapse>
-                    </Container>
-                </Navbar>
                 <h3>Create Post</h3>
                 <div class = "row mb-3">
                     {/* Game Title */}

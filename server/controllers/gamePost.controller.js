@@ -2,17 +2,16 @@ const GamePost = require('../models/gamePost.model');
 const jwt = require('jsonwebtoken')
 
 module.exports.createGamePost = async (request, response) => {
-
     const {body} = request;
     let newPost = new GamePost(body);
     let decodedJWT;
     try{
-        const decodedJWT =  await jwt.verify(
+        decodedJWT =  await jwt.verify(
             request.cookies.usertoken, 
             process.env.JWT_SECRET);
             console.log("It worked!", decodedJWT)
             response.json({message: "finally worked"})
-    }catch (error) {
+    } catch(error) {
         console.log("Token Error");
         console.log(decodedJWT)
         response.status(400).json({message: "You must be logged in!"})

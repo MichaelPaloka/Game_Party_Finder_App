@@ -1,4 +1,5 @@
 const UserController = require('../controllers/user.controller');
+const jwtMiddleware = require('../middleware/jwt.middleware')
 
 module.exports = (app) => {
     app.post('/api/user', UserController.register);
