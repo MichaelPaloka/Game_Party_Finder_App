@@ -12,7 +12,7 @@ const NewGamePostForm = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
-    const onSubmitHandler = (e) => {
+    const createGamePostHandler = (e) => {
         e.preventDefualt();
         axios.post('http://localhost:8000/api/gamepost', {
             gameTitle,
@@ -32,6 +32,7 @@ const NewGamePostForm = () => {
             .catch((err) => {
                 console.log(err.response.data);
                 setErrors(err.response.data.errors)
+                navigate("/Gamepartyfinder/home")
             })
     }
 
@@ -66,8 +67,8 @@ const NewGamePostForm = () => {
                 </Container>
             </Navbar>
 
-            <form onSubmit={onSubmitHandler}>
-                <h3>Create Post</h3>
+            <form onSubmit={createGamePostHandler}>
+            <h3>Create Post</h3>
                 <div class = "row mb-3">
                     {/* Game Title */}
                     <div class="col">
@@ -83,7 +84,17 @@ const NewGamePostForm = () => {
                     <div class="col">
                         <label for="genre" class="col-form-label">Genre:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setGenre(e.target.value)} class="form-control"></input>
+                                <select onChange = {(e) => setGenre(e.target.value)}>
+                                        <option disabled selected hidden>Select Genre</option>
+                                        <option>Sandbox</option>
+                                        <option>FPS</option>
+                                        <option>Role Playing</option>
+                                        <option>Action</option>
+                                        <option>Puzzle</option>
+                                        <option>Sports</option>
+                                        <option>MMORPG</option>
+                                        <option>Other</option>
+                                    </select>
                             </div>
                     </div>
                     {errors.genre && (

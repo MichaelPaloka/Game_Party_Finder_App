@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import {Navbar, Nav, Container, NavDropdown, CardGroup, Card} from 'react-bootstrap';
+import {Navbar, Nav, Container, NavDropdown} from 'react-bootstrap';
 
 const ViewGamePost = (props) => {
     const [gamePost, setGamePost] = useState({})
@@ -9,7 +9,7 @@ const ViewGamePost = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/gamepost/" + id)
+        axios.get("http://localhost:8000/api/gamepost/" + id, {withCredentials: true})
             .then((res)=>{
                 console.log(res.data);
                 setGamePost(res.data);

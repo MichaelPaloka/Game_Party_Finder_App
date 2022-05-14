@@ -22,7 +22,7 @@ module.exports.createGamePost = async (request, response) => {
 
     try {
         newPost = await newPost.save();
-        response.json((newPost));
+        // response.json((newPost));
         return;
     } catch (error) {
         console.log("error", error)

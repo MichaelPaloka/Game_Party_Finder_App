@@ -4,18 +4,23 @@ const bcrypt = require('bcrypt');
 
 module.exports.register = async (request, response) => {
     
-    const result = await User.create(request.body);
-    console.log("result", result);
     const newUser = new User(request.body);
     try {
         const newUserObject = await newUser.save();
+        const userToken = jwt.sign({ id: newUser._id}, process.env.JWT_SECRET);
+        response.cookie("usertoken", userToken, process.env.JWT_SECRET, {
+            httpOnly:true,
+            expires: new Date(Date.now() + 90000000),
+        })
         response.json(newUserObject);
     } catch(error) {
         console.log("Error saving to Mongoose!");
-        res.status(400).json(error);
+        response.status(400).json(error);
         return;
     }
-
+    
+    // const result = await User.create(request.body);
+    // console.log("result", result);
 
     // User.create(request.body)
     // .then(user => {
@@ -104,7 +109,6 @@ module.exports.login = async (request, response) => {
 }
 
 module.exports.logout = (request, response) => {
-    response.clearCookie('usertoken');
+    response.clearCookie('usertoken', { path: "/" });
     response.json({message: "You have been logged out!"})
-    
 }

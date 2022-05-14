@@ -4,12 +4,12 @@ import { useNavigate, Link } from 'react-router-dom';
 import {Navbar, Nav, Container, NavDropdown, CardGroup, Card} from 'react-bootstrap';
 
 
-const Homepage = (props) => {
+const Homepage = () => {
     const [gamePosts, setGamePosts] = useState([]);
     const navigate = useNavigate()
     
     useEffect(()=>{
-        axios.get("http://localhost:8000/api/gamepost")
+        axios.get("http://localhost:8000/api/gamepost", {withCredentials: true})
         .then((res)=>{
             console.log(res.data);
             setGamePosts(res.data);
@@ -19,7 +19,7 @@ const Homepage = (props) => {
         })
     }, [])
 
-    const onLogoutHandler = async () => {
+    const onLogoutHandler = () => {
         axios.post('http://localhost:8000/api/user/logout')
         .then((response) => console.log(response))
         .catch((err) => console.log(err))

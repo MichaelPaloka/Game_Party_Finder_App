@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
-const LoginForm = (props) => {
+const LoginForm = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState(""); 
     const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ const LoginForm = (props) => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate()
 
-    const onRegisterHandler = async (e) => {
+    const onRegisterHandler =  (e) => {
         e.preventDefault();
         axios.post('http://localhost:8000/api/user', {
             firstName,
@@ -32,8 +32,8 @@ const LoginForm = (props) => {
                 navigate("/Gamepartyfinder/home")
             })
             .catch( err => {
-                console.log(err.response.data);
-                setErrors(err.response.data.errors);
+                console.log(err.res.data);
+                setErrors(err.res.data.errors);
             })
     }
 
