@@ -5,6 +5,6 @@ module.exports = (app) => {
     app.post('/api/gamepost', jwtMiddleware.authenticateJwt, GamePostController.createGamePost);
     app.get('/api/gamepost', jwtMiddleware.authenticateJwt, GamePostController.getAllGamePosts);
     app.get('/api/gamepost/:id', jwtMiddleware.authenticateJwt, GamePostController.getSingleGamePost);
-    // app.put('/api/user/:id', UserController.updateProduct);
-    app.delete('/api/gamepost/:id', GamePostController.deleteGamePost);
+    app.put('/api/gamepost/:id', jwtMiddleware.authenticateJwt, GamePostController.updateGamePost);
+    app.delete('/api/gamepost/:id', jwtMiddleware.authenticateJwt, GamePostController.deleteGamePost);
 }

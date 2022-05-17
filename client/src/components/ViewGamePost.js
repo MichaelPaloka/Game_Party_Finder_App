@@ -17,8 +17,10 @@ const ViewGamePost = (props) => {
             .catch( err => console.log(err))
     }, [])
 
-    const removeGamePost = (id) => {
-        axios.delete('http:lcoalhost:8000/api/gamepost/' + id)
+    const deleteGamePost = (id) => {
+        axios.delete("http://localhost:8000/api/gamepost/" + id, {
+            withCredentials: true
+        })
         .then((res) => {
             navigate("/Gamepartyfinder/home")
         })
@@ -42,11 +44,9 @@ const ViewGamePost = (props) => {
                         <Nav className="me-auto">
                             <div style={{display: "flex"}}>
                                 <Nav.Link href="/Gamepartyfinder/home">Home</Nav.Link>
-                                <Nav.Link href="#link">Link</Nav.Link>
                             </div>
                             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => onLogoutHandler()}>Logout</NavDropdown.Item>
                             </NavDropdown>
@@ -57,6 +57,7 @@ const ViewGamePost = (props) => {
             <p>Game Title: {gamePost.gameTitle}</p>
             <p>Objective: {gamePost.objective}</p>
             <p>Party Size: {gamePost.partySize}</p>
+            <button onClick={(e) => {deleteGamePost(gamePost._id)}}>Delete Post</button>
             {/* Needs to be changed so only author can remove */}
             {/* {
                 gamePost.postedBy == jwt.decode.payload.id &&

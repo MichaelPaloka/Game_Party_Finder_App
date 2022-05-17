@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authenticateJwt = async (req, res, next) => {
+    let decodedJwt;
     try {
         decodedJwt = await jwt.verify(
             req.cookies.usertoken,
@@ -10,6 +11,7 @@ const authenticateJwt = async (req, res, next) => {
         next();
     } catch (error) {
         console.log("Token Error");
+        console.log(decodedJwt)
         res.status(400).json({ message: "You must be logged in to access that!" });
     }
 }

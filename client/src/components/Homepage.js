@@ -36,12 +36,9 @@ const Homepage = () => {
                         <Nav className="me-auto">
                             <div style={{display: "flex"}}>
                                 <Nav.Link href="#home">Home</Nav.Link>
-                                <Nav.Link href="#link">Link</Nav.Link>
                             </div>
                             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                                <NavDropdown.Item href={`/Gamepartyfinder/home/user/`}>Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => onLogoutHandler()}>Logout</NavDropdown.Item>
                             </NavDropdown>
@@ -50,11 +47,12 @@ const Homepage = () => {
                 </Container>
             </Navbar>
             <Link to={"/Gamepartyfinder/home/gamepost/new"}>Create a Post</Link>
-            <CardGroup style={{padding: "20px"}}>
+            
+            <CardGroup style={{padding: "20px", width: 1500, display: 'flex', flexWrap: 'wrap' }}>
                 {
                     gamePosts.map((gamePost, index)=>{
                         return (
-                            <Card style={{margin: "5px"}}>
+                            <Card key={index} style={{margin: "5px", width: 400 }}>
                                 <Card.Img variasnt="top" src="holder.js/100px160" />
                                 <Card.Body>
                                     <Card.Title>{gamePost.gameTitle}</Card.Title>
@@ -62,6 +60,7 @@ const Homepage = () => {
                                 </Card.Body>
                                 <Card.Footer>
                                     <Link to={`/Gamepartyfinder/home/gamepost/${gamePost._id}`} class="btn btn-primary">View</Link>
+                                    <Link to={`/Gamepartyfinder/home/gamepost/${gamePost._id}/update`} class="btn btn-primary">Update</Link>
                                     <small className="text-muted">Click to view more details</small>
                                 </Card.Footer>
                             </Card>

@@ -4,29 +4,18 @@ const jwt = require('jsonwebtoken')
 module.exports.createGamePost = async (request, response) => {
     const {body} = request;
     let newPost = new GamePost(body);
-    let decodedJWT;
-    try{
-        decodedJWT =  await jwt.verify(
-            request.cookies.usertoken, 
-            process.env.JWT_SECRET);
-            console.log("It worked!", decodedJWT)
-            response.json({message: "finally worked"})
-    } catch(error) {
-        console.log("Token Error");
-        console.log(decodedJWT)
-        response.status(400).json({message: "You must be logged in!"})
-        return;
-    }
+    const decodedJWT = await jwt.verify(
+        request.cookies.usertoken, 
+        process.env.JWT_SECRET);
 
     newPost.postedBy = decodedJWT.id;
 
     try {
         newPost = await newPost.save();
-        // response.json((newPost));
-        return;
+        response.json((newPost));
     } catch (error) {
-        console.log("error", error)
-        response.status(400).json(error)
+        console.log("error submitting post", error)
+        response.status(400).json(error);
         return;
     }
 }
@@ -49,8 +38,40 @@ module.exports.getSingleGamePost = (request, response) => {
         .catch(err => response.json(err))
 }
 
+module.exports.updateGamePost = (request, response) => {
+    // const {body} = request;
+    // let updGamePost = new GamePost(body);
+    // decodedJWT = jwt.verify(
+    //     request.cookies.usertoken, 
+    //     process.env.JWT_SECRET);
+    // if(updGamePost.postedBy == decodedJWT.id){
+        GamePost.findOneAndUpdate({_id:request.params.id}, request.body, {new:true, runValidators: true})
+        .then(updatedGamePost => response.json(updatedGamePost))
+        .catch(err => {response.status(400).json(err)});
+    // } else{
+    //     console.log(updGamePost.postedBy)
+    //     console.log(decodedJWT.id)
+    //     console.log(body)
+    //     console.log("Not the creator of post!")
+    // }
+}
+
 module.exports.deleteGamePost = (request, response) => {
-    GamePost.deleteOne({ _id: request.params.id })
-        .then(confirmDelete => response.json(confirmDelete))
+    // decodedJWT = jwt.verify(
+    //     request.cookies.usertoken, 
+    //     process.env.JWT_SECRET);
+    // postToBeDeleted = GamePost.findOne({_id:request.params.id})
+    //     .then(gamePost => response.json(gamePost))
+    //     .catch(err => response.json(err))
+    // if(postToBeDeleted == decodedJWT.id){
+        GamePost.deleteOne({ _id: request.params.id })
+        .then(confirmDelete => {
+            response.json(confirmDelete)})
+            // console.log(postToBeDeleted)
         .catch(err => response.json(err))
+    // }else{
+    //     console.log(response)
+    //     console.log(decodedJWT)
+    //     console.log("Not the creator of post!")
+    // }
 }

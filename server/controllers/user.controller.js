@@ -18,15 +18,6 @@ module.exports.register = async (request, response) => {
         response.status(400).json(error);
         return;
     }
-    
-    // const result = await User.create(request.body);
-    // console.log("result", result);
-
-    // User.create(request.body)
-    // .then(user => {
-    //     res.json({ msg: "success!", user: user });
-    // })
-    // .catch(err => response.status(400).json(err));
 }
 
 module.exports.login = async (request, response) => {
@@ -109,6 +100,18 @@ module.exports.login = async (request, response) => {
 }
 
 module.exports.logout = (request, response) => {
-    response.clearCookie('usertoken', { path: "/" });
+    response.clearCookie('usertoken');
     response.json({message: "You have been logged out!"})
+}
+
+module.exports.getUser = (request, response) => {
+    User.findOne({_id:request.params.id})
+        .then(user => response.json(user))
+        .catch(err => response.json(err))
+}
+
+module.exports.updateProfile = (request, response) => {
+    User.findOneAndUpdate({_id:request.params.id}, request.body, {new:true, runValidators: true})
+        .then(updatedUser => response.json(updatedUser))
+        .catch(err => {response.status(400).json(err)});
 }

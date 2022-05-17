@@ -50,6 +50,10 @@ const GamePostSchema = new mongoose.Schema({
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        required: [
+            true,
+            "Posted by is required!"
+        ],
     }
 }, { timestamps: true });
 
