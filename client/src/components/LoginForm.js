@@ -63,14 +63,14 @@ const LoginForm = () => {
                         <div class="col">
                             <label for="email" class="col-form-label">Email:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" onChange = {(e) => setEmail(e.target.value)} class="form-control"></input>
+                                    <input type="email" onChange = {(e) => setEmail(e.target.value)} class="form-control"></input>
                                 </div>
                         </div>
                         {/* Password */}
                         <div class="col">
                             <label for="password" class="col-form-label">Password:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" onChange = {(e) => setPassword(e.target.value)} class="form-control"></input>
+                                    <input type="password" onChange = {(e) => setPassword(e.target.value)} class="form-control"></input>
                                 </div>
                         </div>
                     </div>
@@ -110,7 +110,7 @@ const LoginForm = () => {
                             <div class="col">
                                 <label for="email" class="col-form-label">Email:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" onChange = {(e) => setEmail(e.target.value)} class="form-control"></input>
+                                        <input type="email" onChange = {(e) => setEmail(e.target.value)} class="form-control"></input>
                                     </div>
                             </div>
                             {errors.email && (
@@ -122,7 +122,7 @@ const LoginForm = () => {
                             <div class="col">
                                 <label for="password" class="col-form-label">Password:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" onChange = {(e) => setPassword(e.target.value)} class="form-control"></input>
+                                        <input type="password" onChange = {(e) => setPassword(e.target.value)} class="form-control"></input>
                                     </div>
                             </div>
                             {errors.password && (
@@ -132,7 +132,7 @@ const LoginForm = () => {
                             <div class="col">
                                 <label for="confirmPassword" class="col-form-label">Confirm Password:</label>
                                     <div class="col-sm-10">
-                                        <input type="text" onChange = {(e) => setConfirmPassword(e.target.value)} class="form-control"></input>
+                                        <input type="password" onChange = {(e) => setConfirmPassword(e.target.value)} class="form-control"></input>
                                     </div>
                             </div>
                             {errors.confirmPassword && (

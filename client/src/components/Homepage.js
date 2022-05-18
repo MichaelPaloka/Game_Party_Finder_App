@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import {Navbar, Nav, Container, NavDropdown, CardGroup, Card} from 'react-bootstrap';
 
 
 const Homepage = () => {
+    const [user, setUser] = useState({})
+    const {id} = useParams();
     const [gamePosts, setGamePosts] = useState([]);
     const navigate = useNavigate()
     
@@ -13,6 +15,17 @@ const Homepage = () => {
         .then((res)=>{
             console.log(res.data);
             setGamePosts(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }, [])
+
+    useEffect(()=>{
+        axios.get("http://localhost:8000/api/user/" + id, {withCredentials: true})
+        .then((res)=>{
+            console.log(res.data);
+            setUser(res.data);
         })
         .catch((err)=>{
             console.log(err);
@@ -38,7 +51,7 @@ const Homepage = () => {
                                 <Nav.Link href="#home">Home</Nav.Link>
                             </div>
                             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href={`/Gamepartyfinder/home/user/`}>Profile</NavDropdown.Item>
+                                <NavDropdown.Item href={`/Gamepartyfinder/home/user/${user._id}`}>Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => onLogoutHandler()}>Logout</NavDropdown.Item>
                             </NavDropdown>

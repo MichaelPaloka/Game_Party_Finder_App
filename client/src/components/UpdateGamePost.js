@@ -27,7 +27,7 @@ const UpdateGamePost = (props) => {
                 setDate(res.data.date);
             })
             .catch((err) => console.log(err));
-    })
+    }, [])
 
     const updateGamePostHandler = (e) => {
         e.preventDefault();
@@ -36,7 +36,7 @@ const UpdateGamePost = (props) => {
             genre,
             objective,
             partySize,
-            // date,
+            date,
         },
         {
             withCredentials: true
@@ -87,7 +87,7 @@ const UpdateGamePost = (props) => {
                     <div class="col">
                         <label for="gameTitle" class="col-form-label">Game Title:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setGameTitle(e.target.value)} class="form-control" value={gameTitle}></input>
+                                <input type="text" onChange = {(e) => setGameTitle(e.target.value)} class="form-control" id='gameTitle' value={gameTitle}></input>
                             </div>
                     </div>
                     {errors.gameTitle && (
@@ -135,7 +135,7 @@ const UpdateGamePost = (props) => {
                     {errors.partySize && (
                             <p style={{color: 'red'}}>{errors.partySize.message}</p>
                     )}
-                    {/* Date
+                    {/* Date */}
                     <div class="col">
                         <label for="date" class="col-form-label">Date:</label>
                             <div class="col-sm-10">
@@ -144,7 +144,7 @@ const UpdateGamePost = (props) => {
                     </div>
                     {errors.date && (
                             <p style={{color: 'red'}}>{errors.date.message}</p>
-                    )} */}
+                    )}
                 </div>
                 <button type='submit'>Update</button>
             </form>

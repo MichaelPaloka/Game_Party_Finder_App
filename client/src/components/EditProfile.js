@@ -10,7 +10,7 @@ const EditProfileForm = (props) => {
     const [lastName, setLastName] = useState(""); 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState()
     const [errors, setErrors] = useState({});
     const navigate = useNavigate()
 
@@ -27,11 +27,11 @@ const EditProfileForm = (props) => {
                 setConfirmPassword(res.data.setConfirmPassword);
             })
             .catch((err) => console.log(err));
-    })
+    }, [])
 
     const updateProfile = (e) => {
-        e.preventDefualt();
-        axios.put('http://localhost:8000/api/gamepost/' + id, {
+        e.preventDefault();
+        axios.put('http://localhost:8000/api/user/' + id, {
             firstName,
             lastName,
             email,
@@ -49,7 +49,6 @@ const EditProfileForm = (props) => {
             .catch(err => {
                 console.log(err.response.data);
                 setErrors(err.response.data.errors)
-                navigate("/Gamepartyfinder/home")
             })
     }
 
@@ -88,7 +87,7 @@ const EditProfileForm = (props) => {
                     <div class="col">
                         <label for="firstName" class="col-form-label">First Name:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setFirstName(e.target.value)} class="form-control" value={firstName}></input>
+                                <input type="text" onChange = {(e) => setFirstName(e.target.value)} class="form-control" value={firstName}/>
                             </div>
                     </div>
                     {errors.firstName && (
@@ -98,7 +97,7 @@ const EditProfileForm = (props) => {
                     <div class="col">
                         <label for="lastName" class="col-form-label">Last Name:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setLastName(e.target.value)} class="form-control" value={lastName}></input>
+                                <input type="text" onChange = {(e) => setLastName(e.target.value)} class="form-control" value={lastName}/>
                             </div>
                     </div>
                     {errors.lastName && (
@@ -110,7 +109,7 @@ const EditProfileForm = (props) => {
                     <div class="col">
                         <label for="email" class="col-form-label">Email:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setEmail(e.target.value)} class="form-control" value={email}></input>
+                                <input type="email" onChange = {(e) => setEmail(e.target.value)} class="form-control" value={email}/>
                             </div>
                     </div>
                     {errors.email && (
@@ -122,7 +121,7 @@ const EditProfileForm = (props) => {
                     <div class="col">
                         <label for="password" class="col-form-label">Password:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setPassword(e.target.value)} class="form-control" value={password}></input>
+                                <input type="password" onChange = {(e) => setPassword(e.target.value)} class="form-control" value={password}/>
                             </div>
                     </div>
                     {errors.password && (
@@ -132,14 +131,15 @@ const EditProfileForm = (props) => {
                     <div class="col">
                         <label for="confirmPassword" class="col-form-label">Confirm Password:</label>
                             <div class="col-sm-10">
-                                <input type="text" onChange = {(e) => setConfirmPassword(e.target.value)} class="form-control" value={confirmPassword}></input>
+                                <input type="password" onChange = {(e) => setConfirmPassword(e.target.value)} class="form-control" value={confirmPassword}/>
+                                <h3>the password is {password}</h3>
                             </div>
                     </div>
                     {errors.confirmPassword && (
                             <p style={{color: 'red'}}>{errors.confirmPassword.message}</p>
                     )}
                 </div>
-                <input type={"submit"} value="Update Account"></input>
+                <input type={"submit"} value="Update Account"/>
             </form>
         </div>
     )

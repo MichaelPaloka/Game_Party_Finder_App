@@ -115,3 +115,13 @@ module.exports.updateProfile = (request, response) => {
         .then(updatedUser => response.json(updatedUser))
         .catch(err => {response.status(400).json(err)});
 }
+
+module.exports.getLoggedInUser = (request, response) => {
+    const decodedJWT = jwt.verify(
+        request.cookies.usertoken, 
+        process.env.JWT_SECRET);
+    User.findOne({_id:decodedJWT.id})
+        .then(user => {
+            response.json(user)})
+        .catch(err => response.json(err))
+}
