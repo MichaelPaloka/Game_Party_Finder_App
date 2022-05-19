@@ -13,6 +13,8 @@ const LoginForm = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate()
 
+
+    // Based on instructor Josh's Login model
     const onRegisterHandler =  (e) => {
         e.preventDefault();
         axios.post('http://localhost:8000/api/user', {
@@ -37,6 +39,8 @@ const LoginForm = () => {
             })
     }
 
+
+    // Based on instructor Josh's Login model
     const onLoginHandler = (e) => {
         e.preventDefault();
         const postData = { email, password};
@@ -53,11 +57,10 @@ const LoginForm = () => {
     }
 
     return (
-        <div style={{backgroundColor: "#EAE7DC", height:1000, padding: 25}}>
-
-            <div style={{display: 'flex',justifyContent: 'space-between'}}>
-                <h1 style={{color: "#E85A4F"}}>Game Party Finder</h1>
-                <form onSubmit={onLoginHandler} style={{display: 'flex', alignItems: 'center'}}>
+        <div className='homepage-background' style={{ height:1000}}>
+            <div style={{ backgroundColor: '#FFFFFF', display: 'flex',justifyContent: 'space-between', alignItems: 'center', padding: 10 }}>
+                <h1 style={{color: "#72A0C1"}}>Game Party Finder</h1>
+                <form onSubmit={onLoginHandler} style={{ display: 'flex', alignItems: 'center' }}>
                     <div class="row mb-3">
                         {/* Email */}
                         <div class="col">
@@ -81,7 +84,7 @@ const LoginForm = () => {
             
             <div style={{display: 'flex',justifyContent: 'Center'}}>
                 <div>
-                    <form onSubmit={onRegisterHandler} style={{width: 1000, height: 500, marginTop:100, borderStyle: 'solid', borderRadius: 20,padding: 25}}>
+                    <form onSubmit={onRegisterHandler} style={{ backgroundColor: '#FFFFFF', width: 1000, height: 500, marginTop:100, borderStyle: 'solid', borderRadius: 20,padding: 25 }}>
                         <h3 style={{textAlign: 'center'}}>Register Below!</h3>
                         <div class = "row mb-3">
                             {/* First Name */}
@@ -139,7 +142,7 @@ const LoginForm = () => {
                                     <p style={{color: 'red'}}>{errors.confirmPassword.message}</p>
                             )}
                         </div>
-                        <input type={"submit"} value="Create Account"></input>
+                        <input type={"submit"} value="Create Account" class="btn btn-outline-primary"></input>
                     </form>
                 </div>
             </div>

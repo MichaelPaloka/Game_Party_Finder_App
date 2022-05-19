@@ -1,6 +1,9 @@
 const GamePost = require('../models/gamePost.model');
 const jwt = require('jsonwebtoken')
 
+
+// Based on instructor Josh's contorller for creating posts
+
 module.exports.createGamePost = async (request, response) => {
     const {body} = request;
     let newPost = new GamePost(body);
@@ -20,6 +23,8 @@ module.exports.createGamePost = async (request, response) => {
     }
 }
 
+// Based on learn Platform getAll
+
 module.exports.getAllGamePosts = (request, response) => {
     GamePost.find()
         .then(allGamePosts => {
@@ -32,46 +37,29 @@ module.exports.getAllGamePosts = (request, response) => {
         })
 }
 
+// Based on learn Platform get 
+
 module.exports.getSingleGamePost = (request, response) => {
     GamePost.findOne({_id:request.params.id})
         .then(gamePost => response.json(gamePost))
         .catch(err => response.json(err))
 }
 
+// Based on learn Platform find one and update
+
 module.exports.updateGamePost = (request, response) => {
-    // const {body} = request;
-    // let updGamePost = new GamePost(body);
-    // decodedJWT = jwt.verify(
-    //     request.cookies.usertoken, 
-    //     process.env.JWT_SECRET);
-    // if(updGamePost.postedBy == decodedJWT.id){
         GamePost.findOneAndUpdate({_id:request.params.id}, request.body, {new:true, runValidators: true})
         .then(updatedGamePost => response.json(updatedGamePost))
         .catch(err => {response.status(400).json(err)});
-    // } else{
-    //     console.log(updGamePost.postedBy)
-    //     console.log(decodedJWT.id)
-    //     console.log(body)
-    //     console.log("Not the creator of post!")
-    // }
 }
 
+// Based on learn Platform delete 
+
 module.exports.deleteGamePost = (request, response) => {
-    // decodedJWT = jwt.verify(
-    //     request.cookies.usertoken, 
-    //     process.env.JWT_SECRET);
-    // postToBeDeleted = GamePost.findOne({_id:request.params.id})
-    //     .then(gamePost => response.json(gamePost))
-    //     .catch(err => response.json(err))
-    // if(postToBeDeleted == decodedJWT.id){
-        GamePost.deleteOne({ _id: request.params.id })
-        .then(confirmDelete => {
-            response.json(confirmDelete)})
-            // console.log(postToBeDeleted)
-        .catch(err => response.json(err))
-    // }else{
-    //     console.log(response)
-    //     console.log(decodedJWT)
-    //     console.log("Not the creator of post!")
-    // }
+    GamePost.deleteOne({ _id: request.params.id })
+    .then(confirmDelete => {
+        response.json(confirmDelete)})
+        // console.log(postToBeDeleted)
+    .catch(err => response.json(err))
+
 }

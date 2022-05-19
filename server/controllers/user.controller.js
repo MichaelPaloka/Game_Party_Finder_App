@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
+// Based on instructor Josh's register controller
+
 module.exports.register = async (request, response) => {
     
     const newUser = new User(request.body);
@@ -20,6 +22,7 @@ module.exports.register = async (request, response) => {
     }
 }
 
+// Based on instructor Josh's Login controller
 module.exports.login = async (request, response) => {
     const {body} = request;
 
@@ -57,59 +60,27 @@ module.exports.login = async (request, response) => {
         expires: new Date(Date.now() + 90000000),
     })
     .json({message: "Successful Login"})
-    // User.findOne({ email: request.body.email })
-    //     .then((user)=> {
-    //         if(user === null) {
-    //             return response.status(400).json({message: "Invalid Login1"});
-    //         }
-    //         else{
-    //             bcrypt.compare(request.body.password, user.password)
-    //                 .then((correctPassword)=>{
-    //                     if(correctPassword){
-    //                         console.log('Password is valid');
-    //                         response.cookie(
-    //                             "usertoken",
-    //                             jwt.sign(
-    //                                 {
-    //                                     id: user._id
-    //                                 },
-    //                                 process.env.JWT_SECRET
-    //                             ),
-    //                                 {
-    //                                     httpOnly: true,
-    //                                     expires: new Date(Date.now() + 9000000)
-    //                                 }
-    //                             )
-    //                             .json({ msg: "success!" });
-    //                     }
-    //                     else{
-    //                         response.status(400).json({message: "Invalid Login2"});
-    //                     };
-    //                 })
-    //                 .catch((err)=>{
-    //                     console.log(err);
-    //                     console.log(request.body.password)
-    //                     response.status(400).json({message: "Invalid Login3"})
-    //                 })
-    //         }
-    //     })
-    //     .catch((err)=>{
-    //         console.log(err);
-    //         response.status(400).json({message: "Invalid Login4"})
-    //     })
 }
+
+// Based on instructor Josh's and learn platform's Logout controller, does not work though.
 
 module.exports.logout = (request, response) => {
-    response.clearCookie('usertoken');
-    response.json({message: "You have been logged out!"})
+    response
+    .clearCookie('usertoken')
+    .status(200)
+    .json({message: "You have been logged out!"});
 }
 
+
+// Based on learn Platform get 
 module.exports.getUser = (request, response) => {
     User.findOne({_id:request.params.id})
         .then(user => response.json(user))
         .catch(err => response.json(err))
 }
 
+
+// Based on learn Platform update
 module.exports.updateProfile = (request, response) => {
     User.findOneAndUpdate({_id:request.params.id}, request.body, {new:true, runValidators: true})
         .then(updatedUser => response.json(updatedUser))

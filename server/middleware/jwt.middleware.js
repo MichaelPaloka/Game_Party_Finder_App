@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+// Bassed on Josh's example for middleware
+
 const authenticateJwt = async (req, res, next) => {
     let decodedJwt;
     try {
@@ -17,22 +19,3 @@ const authenticateJwt = async (req, res, next) => {
 }
 
 module.exports = {authenticateJwt}
-
-
-// module.exports = {
-//     authenticate(request, response, next){
-//         jwt.verify(request.cookies.usertoken,
-//             process.env.JWT_SECRET,
-//             (err, payload)=>{
-//                 if(err){
-//                     console.log(err);
-//                     response.status(401).json({verified: false})
-//                 }
-//                 else{
-//                     console.log(payload);
-//                     req.jwtpayload = payload
-//                     next()
-//                 }
-//             })
-//     }
-// }

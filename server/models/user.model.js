@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt')
 
+// Based on learn Platform model for users, and who to bcrypt passwords, and validate emails. 
+
+
 const UserSchema = new mongoose.Schema({
     firstName: { 
         type: String,
@@ -8,6 +11,7 @@ const UserSchema = new mongoose.Schema({
             true,
             "A first name is required!"
         ],
+        minlength: [2, "First name must be longer than 2 characters!"]
     },
     lastName: { 
         type: String,
@@ -15,6 +19,7 @@ const UserSchema = new mongoose.Schema({
             true,
             "A last name is required!"
         ],
+        minlength: [2, "Last name must be longer than 2 characters!"]
     },
     email: { 
         type: String,

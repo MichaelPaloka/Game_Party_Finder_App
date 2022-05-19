@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 
 const GamePostSchema = new mongoose.Schema({
+    gameImage: {
+        type: String,
+        required: [
+            false,
+        ]
+    },
     gameTitle: { 
         type: String,
         required: [
@@ -54,7 +60,8 @@ const GamePostSchema = new mongoose.Schema({
             true,
             "Posted by is required!"
         ],
-    }
+    },
+    partyMembers: [{ type: mongoose.Schema.Types.ObjectId, ref: "PartyMember" }],
 }, { timestamps: true });
 
 module.exports = mongoose.model('GamePost', GamePostSchema);

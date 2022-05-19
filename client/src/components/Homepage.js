@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import {Navbar, Nav, Container, NavDropdown, CardGroup, Card} from 'react-bootstrap';
+import {Navbar, Nav, Container, NavDropdown, Card} from 'react-bootstrap';
+import '../App.css';
 
 
 const Homepage = () => {
@@ -10,6 +11,8 @@ const Homepage = () => {
     const [gamePosts, setGamePosts] = useState([]);
     const navigate = useNavigate()
     
+    // Combination of Josh's, myself and the learn platforms methods.
+
     useEffect(()=>{
         axios.get("http://localhost:8000/api/gamepost", {withCredentials: true})
         .then((res)=>{
@@ -20,6 +23,8 @@ const Homepage = () => {
             console.log(err);
         })
     }, [])
+
+    // Combination of Josh's, myself and the learn platforms methods.
 
     useEffect(()=>{
         axios.get("http://localhost:8000/api/user/" + id, {withCredentials: true})
@@ -32,6 +37,9 @@ const Homepage = () => {
         })
     }, [])
 
+
+    // Based on instructor Josh's and learn platform's Logout function, does not work though.
+
     const onLogoutHandler = () => {
         axios.post('http://localhost:8000/api/user/logout')
         .then((response) => console.log(response))
@@ -39,16 +47,20 @@ const Homepage = () => {
         navigate('/Gamepartyfinder')
     }
 
+
+    // The navbar is a template from react-bootstrap which I am using for the project.
+
     return (
-        <div style={{backgroundColor: "#EAE7DC"}}>
-            <Navbar style={{backgroundColor: "#8E8D8A"}} expand="lg">
+        <div className='homepage-background'>
+            <Navbar style={{backgroundColor: "#FFFFFF"}} expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">GamePartyFinder</Navbar.Brand>
+                    <Navbar.Brand style={{color: "#72A0C1"}}>GamePartyFinder</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <div style={{display: "flex"}}>
                                 <Nav.Link href="#home">Home</Nav.Link>
+                                <Nav.Link href="/Gamepartyfinder/home/gamepost/new">Create Post</Nav.Link>
                             </div>
                             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                                 <NavDropdown.Item href={`/Gamepartyfinder/home/user/${user._id}`}>Profile</NavDropdown.Item>
@@ -59,29 +71,29 @@ const Homepage = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-            <Link to={"/Gamepartyfinder/home/gamepost/new"}>Create a Post</Link>
-            
-            <CardGroup style={{padding: "20px", width: 1500, display: 'flex', flexWrap: 'wrap' }}>
-                {
-                    gamePosts.map((gamePost, index)=>{
-                        return (
-                            <Card key={index} style={{margin: "5px", width: 400 }}>
-                                <Card.Img variasnt="top" src="holder.js/100px160" />
-                                <Card.Body>
-                                    <Card.Title>{gamePost.gameTitle}</Card.Title>
-                                    <Card.Text>{gamePost.objective}</Card.Text>
-                                </Card.Body>
-                                <Card.Footer>
-                                    <Link to={`/Gamepartyfinder/home/gamepost/${gamePost._id}`} class="btn btn-primary">View</Link>
-                                    <Link to={`/Gamepartyfinder/home/gamepost/${gamePost._id}/update`} class="btn btn-primary">Update</Link>
-                                    <small className="text-muted">Click to view more details</small>
-                                </Card.Footer>
-                            </Card>
-                        )
-                    })
-                }
-                
-            </CardGroup>
+
+            {/* The Card tag below is imported from react-bootstrap which I am using in the project */}
+            <div>
+                <div className='Game-posts'>
+                    {
+                        gamePosts.map((gamePost, index)=>{
+                            return (
+                                <Card key={index} style={{margin: "50px", width: 350, height: 400 }}>
+                                    <Card.Img style={{ height:250, width:350 }} variasnt="top" src={gamePost.gameImage} />
+                                    <Card.Body >
+                                        <Card.Title style={{color: "#72A0C1"}}>{gamePost.gameTitle}</Card.Title>
+                                        <Card.Text style={{color: "#7CB9E8"}}>{gamePost.objective}</Card.Text>
+                                    </Card.Body>
+                                    <Card.Footer >
+                                        <Link to={`/Gamepartyfinder/home/gamepost/${gamePost._id}`} class="btn btn-outline-primary">View</Link>
+                                        <small className="text-muted">Click to view more details</small>
+                                    </Card.Footer>
+                                </Card>
+                            )
+                        })
+                    }
+                </div>
+            </div>
         </div>
     )
 }

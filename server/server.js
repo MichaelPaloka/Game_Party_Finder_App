@@ -11,6 +11,7 @@ app.use(cookieParser())
 require('./config/mongoose.config');
 require('./routes/user.routes')(app);
 require('./routes/gamePost.routes')(app);
+require('./routes/partyMember.routes')(app);
 
 app.listen(process.env.MY_PORT, () => {
     console.log("Listening at ", process.env.MY_PORT)

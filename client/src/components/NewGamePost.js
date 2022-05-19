@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {Navbar, Nav, Container, NavDropdown} from 'react-bootstrap';
 
 const NewGamePostForm = () => {
+    const [user, setUser] = useState({})
+    const {id} = useParams();
+
+    const [gameImage, setGameImage] = useState("")
     const [gameTitle, setGameTitle] = useState("");
     const [genre, setGenre] = useState("");
     const [objective, setObjective] = useState("");
@@ -12,9 +16,25 @@ const NewGamePostForm = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+// Combination of Josh's, myself and the learn platforms methods.
+
+    useEffect(()=>{
+        axios.get("http://localhost:8000/api/user/" + id, {withCredentials: true})
+        .then((res)=>{
+            console.log(res.data);
+            setUser(res.data);
+        })
+        .catch((err)=>{
+            console.log(err);
+        })
+    }, [])
+
+// Combination of Josh's, myself and the learn platforms methods.
+
     const createGamePostHandler = (e) => {
         e.preventDefault();
         axios.post('http://localhost:8000/api/gamepost', {
+            gameImage,
             gameTitle,
             genre,
             objective,
@@ -35,18 +55,23 @@ const NewGamePostForm = () => {
             })
     }
 
-    const onLogoutHandler = async () => {
+
+    // Based on instructor Josh's and learn platform's Logout function, does not work though.
+
+    const onLogoutHandler = () => {
         axios.post('http://localhost:8000/api/user/logout', {withCredentials:true})
         .then((response) => console.log(response))
         .catch((err) => console.log(err))
         navigate('/Gamepartyfinder')
     }
 
+    // The navbar is imported from react-bootstrap which I am using for the project.
+
     return (
-        <div style={{backgroundColor: "#C1C8E4"}}>
-            <Navbar style={{backgroundColor: "#8E8D8A"}} expand="lg">
+        <div className='homepage-background'>
+            <Navbar style={{backgroundColor: "#FFFFFF"}} expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">GamePartyFinder</Navbar.Brand>
+                    <Navbar.Brand style={{color: "#72A0C1"}}>GamePartyFinder</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
@@ -54,7 +79,7 @@ const NewGamePostForm = () => {
                                 <Nav.Link href="/Gamepartyfinder/home">Home</Nav.Link>
                             </div>
                             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="#action/3.1">Profile</NavDropdown.Item>
+                                <NavDropdown.Item href={`/Gamepartyfinder/home/user/${user._id}`}>Profile</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => onLogoutHandler()}>Logout</NavDropdown.Item>
                             </NavDropdown>
@@ -63,10 +88,20 @@ const NewGamePostForm = () => {
                 </Container>
             </Navbar>
 
-            <div style={{display: 'flex', justifyContent: 'center', height:1000}}>
-                <form onSubmit={createGamePostHandler} style={{width: 1000, height: 500, marginTop:100, borderStyle: 'solid', borderRadius: 20,padding: 25}}>
-                <h3>Create Post</h3>
+            <div style={{display: 'flex', justifyContent: 'center', height:1000 }}>
+                <form onSubmit={createGamePostHandler} style={{ backgroundColor: '#FFFFFF', width: 1000, height: 500, marginTop:100, borderStyle: 'solid', borderRadius: 20,padding: 25 }}>
+                <h3 style={{color: "#72A0C1"}}>Create Post</h3>
                     <div class = "row mb-3">
+                        {/* Game Image */}
+                        <div class="col">
+                            <label for="gameImage" class="col-form-label">Game Image Url:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" onChange = {(e) => setGameImage(e.target.value)} class="form-control"></input>
+                                </div>
+                        </div>
+                        {errors.gameTitle && (
+                                <p style={{color: 'red'}}>{errors.gameTitle.message}</p>
+                        )}
                         {/* Game Title */}
                         <div class="col">
                             <label for="gameTitle" class="col-form-label">Game Title:</label>
@@ -135,7 +170,7 @@ const NewGamePostForm = () => {
                             )}
                         </div>
                     </div>
-                    <input type={"submit"} value="Create Post"></input>
+                    <input type={"submit"} value="Create Post" class="btn btn-outline-primary"></input>
                 </form>
             </div>
             
